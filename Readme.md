@@ -27,7 +27,7 @@ Esta es una aplicación web que permite gestionar un inventario de productos med
 
 1. Clonar el repositorio:
    ```sh
-   git clone https://github.com/tu-usuario/inventory-app.git
+   git clone https://github.com/dan1el64/Inventario_backend.git
    cd inventory-app
    ```
 2. Construir la imagen de la aplicación backend:
@@ -39,7 +39,6 @@ Esta es una aplicación web que permite gestionar un inventario de productos med
    docker-compose up -d
    ```
 4. La API estará disponible en: `http://localhost:8080`
-5. El frontend estará en: `http://localhost:4200`
 
 ---
 ## 📜 API REST - Endpoints

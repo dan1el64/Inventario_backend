@@ -12,7 +12,7 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .info(new Info()
                         .title("Inventory Management API")
-                        .version("1.0")
+                        .version("1.0.0")
                         .description("API para la gestión de productos."));
     }
 }

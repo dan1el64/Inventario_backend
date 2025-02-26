@@ -4,6 +4,7 @@ import com.example.inventario.dto.ApiResponse;
 import com.example.inventario.model.Product;
 import com.example.inventario.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import java.util.List;
 @RequestMapping("/api/v1/products")
 @Slf4j
 @CrossOrigin(origins = "http://localhost:4200")
+@Tag(name = "Ejemplo", description = "Ejemplo de API con Swagger")
 public class ProductController {
     private final ProductService service;
 
