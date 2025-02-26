@@ -28,7 +28,6 @@ Esta es una aplicación web que permite gestionar un inventario de productos med
 1. Clonar el repositorio:
    ```sh
    git clone https://github.com/dan1el64/Inventario_backend.git
-   cd inventory-app
    ```
 2. Construir la imagen de la aplicación backend:
    ```sh
@@ -89,19 +88,10 @@ Ejecutar pruebas unitarias en el backend:
 ./gradlew test
 ```
 
-### **Frontend: Jest**
-Ejecutar pruebas unitarias en el frontend:
-```sh
-cd frontend
-npm install
-npm test
-```
-
 ---
 ## 🌐 **Despliegue en AWS**
 Para un despliegue en AWS, se recomienda:
 - **Backend**: AWS Elastic Beanstalk + RDS (PostgreSQL).
-- **Frontend**: AWS S3 + CloudFront.
 - **Base de Datos**: Amazon RDS (PostgreSQL).
 
 ---
