@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -14,6 +15,14 @@ import java.util.stream.Collectors;
 @Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ApiErrorResponse> handleMalformedBody(HttpMessageNotReadableException ex) {
+        return ResponseEntity.badRequest().body(ApiErrorResponse.builder()
+                .success(false).message("El cuerpo debe ser JSON válido")
+                .status(HttpStatus.BAD_REQUEST).statusCode(400)
+                .timestamp(LocalDateTime.now()).build());
+    }
 
     // 📌 Producto no encontrado (404)
     @ExceptionHandler(ProductNotFoundException.class)

@@ -1,6 +1,9 @@
 package com.example.inventario.controller;
 
 import com.example.inventario.dto.ApiResponse;
+import com.example.inventario.dto.ProductRequest;
+import com.example.inventario.exception.ProductNotFoundException;
+import jakarta.validation.Valid;
 import com.example.inventario.model.Product;
 import com.example.inventario.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,8 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/products")
 @Slf4j
-@CrossOrigin(origins = "http://localhost:4200")
-@Tag(name = "Ejemplo", description = "Ejemplo de API con Swagger")
+@Tag(name = "Productos", description = "Gestión de inventario de demostración")
 public class ProductController {
     private final ProductService service;
 
@@ -33,7 +35,8 @@ public class ProductController {
 
     @PostMapping
     @Operation(summary = "Crear un nuevo producto")
-    public ResponseEntity<ApiResponse<Product>> createProduct(@RequestBody Product product) {
+    public ResponseEntity<ApiResponse<Product>> createProduct(@Valid @RequestBody ProductRequest request) {
+        Product product = request.toProduct();
         log.info("Creando producto: {}", product.getName());
         Product savedProduct = service.createProduct(product);
         return ResponseEntity.status(201).body(new ApiResponse<>(true, "Producto creado", savedProduct));
@@ -41,10 +44,19 @@ public class ProductController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar un producto por ID")
-    public ResponseEntity<ApiResponse<Product>> updateProduct(@PathVariable Long id, @RequestBody Product product) {
+    public ResponseEntity<ApiResponse<Product>> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductRequest request) {
+        Product product = request.toProduct();
         log.info("Actualizando producto con ID: {}", id);
         Product updatedProduct = service.updateProduct(id, product);
         return ResponseEntity.ok(new ApiResponse<>(true, "Producto actualizado", updatedProduct));
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Obtener un producto por ID")
+    public ResponseEntity<ApiResponse<Product>> getProduct(@PathVariable Long id) {
+        Product product = service.getProductById(id)
+                .orElseThrow(() -> new ProductNotFoundException("Producto con ID " + id + " no encontrado"));
+        return ResponseEntity.ok(new ApiResponse<>(true, "Producto obtenido", product));
     }
 
     @DeleteMapping("/{id}")
