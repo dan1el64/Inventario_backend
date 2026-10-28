@@ -6,6 +6,8 @@ An independent product-inventory demonstration with a layered controller/service
 
 ![Inventory interface](https://raw.githubusercontent.com/dan1el64/Inventario_frontend/main/docs/screenshots/inventory-desktop.png)
 
+[Architecture and decisions](docs/architecture.md) · [Published case study](https://www.dan1el64.com/portafolio#inventario)
+
 ## Complete local demo
 
 Install Docker with Compose and Git, then:
