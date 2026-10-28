@@ -15,19 +15,15 @@ jobs:
       - run: ./gradlew test bootJar --no-daemon
       - name: Validate local composition
         run: DB_PASSWORD=ci-local-synthetic-value docker compose config --quiet
-      - name: Build runnable container
-        run: docker build -t inventory-api:ci .
-      - name: Check PostgreSQL profile and HTTP API
+      - name: Run complete PostgreSQL API and Angular demo
         env:
           DB_PASSWORD: ci-local-synthetic-value
         run: |
-          docker compose up -d db app
-          trap 'docker compose logs; docker compose down -v' EXIT
-          for attempt in $(seq 1 60); do
-            if curl -fsS http://localhost:8080/actuator/health; then break; fi
-            sleep 2
-          done
-          curl -fsS http://localhost:8080/api/v1/products
+          trap 'docker compose --profile demo logs; docker compose --profile demo down -v' EXIT
+          ./scripts/demo.sh
+          curl -fsS http://localhost:8080/actuator/health
+          curl -fsS http://localhost:4200/ | grep -q '<app-root'
+          curl -fsS http://localhost:4200/api/v1/products | grep -q '"success":true'
       - uses: actions/upload-artifact@v4
         if: always()
         with:
